@@ -10,7 +10,7 @@ def change_function():
     if change == 'c':
         find_file()
     if change == 'd':
-        change_file()
+        change_contact()
     if change == 'e':
         delete_file()
 
@@ -27,38 +27,31 @@ def read_file():
 
 
 def find_file():
-    find_info = input()
+    find_info = input("Введите инфорацию, которую хотите найти: ")
     with open(file_path,'r') as f:
         for line in f:
             if find_info.casefold() in line.casefold():
                 print(line)
 
-
-# def change_file():
-#     find_info = input()
-#     new_info = input()
-#     with open(file_path,'r+') as f:
-#         for line in f:
-#             if find_info.casefold() in line.casefold():
-#                 if input("Да/Нет: ") == "Да":
-#                     lst = (line.strip()).split(' ')
-#                     print(lst)
-#                 else: continue
-
-
-def change_file():
-    with open(file_path, 'r+', encoding="utf-8") as open_book:
-        seach_param = (input('Введите параметр для поиска: ' ).title())
-        with open (file_path, 'w', encoding='utf8') as open_book:
-            for line in seach_param:
-                if seach_param in line:
-                    print(line)
-                    add_f = (input('Введите фамилию: ' ).title())
-                    add_i = (input('Введите Имя: ' ).title())
-                    add_tel = (input('Введите телефон: ' ).title())
-                    new_line = add_f +' '+add_i +' '+ add_tel + '\n'
-                    line = line.replace(line, new_line)
-                open_book.writelines(line)
+def change_contact():
+    data_str = input("Введите контакт (например, имя): ")
+    user_lst = []
+    with open("telephon_list.txt", "r", encoding="utf-8") as d:
+        lst = d.readlines()
+        for line in lst:
+            if data_str in line:
+                user_lst.append(line)
+    print(*user_lst)
+    answer = int(input("Введите строчку, которую хотите заменить: "))
+    new_contact = input("Введите новый контакт: ") + "\n"
+    
+    with open("telephon_list.txt", "w", encoding="utf-8") as d:
+        for line in lst:
+            if user_lst[answer - 1] != line:
+                d.write(line)
+            else:
+                d.write(new_contact)
+    print("Готово!")
 
 
 def delete_file():
